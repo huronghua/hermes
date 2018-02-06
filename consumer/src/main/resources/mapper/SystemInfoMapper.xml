@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.banma.hermes.consumer.respository.SystemInfoMapper">
+  <resultMap id="BaseResultMap" type="com.banma.hermes.consumer.domain.SystemInfo">
+    <constructor>
+      <idArg column="system_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="web_topic" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="email_address" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="email_key" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="dingding_count" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="dingding_key" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="SMS_number" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="SMS_key" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_time" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="delete_flag" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    system_id, web_topic, email_address, email_key, dingding_count, dingding_key, SMS_number, 
+    SMS_key, create_time, update_time, delete_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hermes_system_register
+    where system_id = #{systemId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hermes_system_register
+    where system_id = #{systemId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.banma.hermes.consumer.domain.SystemInfo">
+    insert into hermes_system_register (system_id, web_topic, email_address, 
+      email_key, dingding_count, dingding_key, 
+      SMS_number, SMS_key, create_time, 
+      update_time, delete_flag)
+    values (#{systemId,jdbcType=INTEGER}, #{webTopic,jdbcType=VARCHAR}, #{emailAddress,jdbcType=VARCHAR}, 
+      #{emailKey,jdbcType=VARCHAR}, #{dingdingCount,jdbcType=VARCHAR}, #{dingdingKey,jdbcType=VARCHAR}, 
+      #{smsNumber,jdbcType=VARCHAR}, #{smsKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.banma.hermes.consumer.domain.SystemInfo">
+    insert into hermes_system_register
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="systemId != null">
+        system_id,
+      </if>
+      <if test="webTopic != null">
+        web_topic,
+      </if>
+      <if test="emailAddress != null">
+        email_address,
+      </if>
+      <if test="emailKey != null">
+        email_key,
+      </if>
+      <if test="dingdingCount != null">
+        dingding_count,
+      </if>
+      <if test="dingdingKey != null">
+        dingding_key,
+      </if>
+      <if test="smsNumber != null">
+        SMS_number,
+      </if>
+      <if test="smsKey != null">
+        SMS_key,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="systemId != null">
+        #{systemId,jdbcType=INTEGER},
+      </if>
+      <if test="webTopic != null">
+        #{webTopic,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddress != null">
+        #{emailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="emailKey != null">
+        #{emailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dingdingCount != null">
+        #{dingdingCount,jdbcType=VARCHAR},
+      </if>
+      <if test="dingdingKey != null">
+        #{dingdingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="smsNumber != null">
+        #{smsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="smsKey != null">
+        #{smsKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.banma.hermes.consumer.domain.SystemInfo">
+    update hermes_system_register
+    <set>
+      <if test="webTopic != null">
+        web_topic = #{webTopic,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAddress != null">
+        email_address = #{emailAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="emailKey != null">
+        email_key = #{emailKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dingdingCount != null">
+        dingding_count = #{dingdingCount,jdbcType=VARCHAR},
+      </if>
+      <if test="dingdingKey != null">
+        dingding_key = #{dingdingKey,jdbcType=VARCHAR},
+      </if>
+      <if test="smsNumber != null">
+        SMS_number = #{smsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="smsKey != null">
+        SMS_key = #{smsKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where system_id = #{systemId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.banma.hermes.consumer.domain.SystemInfo">
+    update hermes_system_register
+    set web_topic = #{webTopic,jdbcType=VARCHAR},
+      email_address = #{emailAddress,jdbcType=VARCHAR},
+      email_key = #{emailKey,jdbcType=VARCHAR},
+      dingding_count = #{dingdingCount,jdbcType=VARCHAR},
+      dingding_key = #{dingdingKey,jdbcType=VARCHAR},
+      SMS_number = #{smsNumber,jdbcType=VARCHAR},
+      SMS_key = #{smsKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=INTEGER}
+    where system_id = #{systemId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectIdList" resultType="java.lang.Integer">
+    SELECT
+    system_id
+    FROM
+    hermes_system_register;
+  </select>
+</mapper>

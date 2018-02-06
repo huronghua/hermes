@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>socket通信页</title>
+</head>
+
+<body>
+<div id="output"></div>
+<button id="connect" onclick="connect()">连接</button>
+<button id="disconnect" onclick="disconnect()" disabled="disabled">断开连接</button>
+<br/>
+<div id="inputDiv" hidden="true">
+    输入名称：<input type="text" id="name"/><br/>
+    <button id="sendName" onclick="sendName()">发送</button>
+    <br/>
+    <p id="response"></p>
+</div>
+</body>
+<script th:src="@{js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{js/websocket.js}"></script>
+</html>

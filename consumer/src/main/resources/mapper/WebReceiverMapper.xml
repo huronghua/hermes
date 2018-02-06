@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.banma.hermes.consumer.respository.WebReceiverMapper">
+  <resultMap id="BaseResultMap" type="com.banma.hermes.consumer.domain.WebReceiver">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="message_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="receiver_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="topic" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, message_id, receiver_id, topic, status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hermes_message_web
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hermes_message_web
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.banma.hermes.consumer.domain.WebReceiver">
+    insert into hermes_message_web (id, message_id, receiver_id, 
+      topic, status, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{messageId,jdbcType=VARCHAR}, #{receiverId,jdbcType=INTEGER}, 
+      #{topic,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.banma.hermes.consumer.domain.WebReceiver">
+    insert into hermes_message_web
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="topic != null">
+        topic,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="messageId != null">
+        #{messageId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=INTEGER},
+      </if>
+      <if test="topic != null">
+        #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.banma.hermes.consumer.domain.WebReceiver">
+    update hermes_message_web
+    <set>
+      <if test="messageId != null">
+        message_id = #{messageId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=INTEGER},
+      </if>
+      <if test="topic != null">
+        topic = #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.banma.hermes.consumer.domain.WebReceiver">
+    update hermes_message_web
+    set message_id = #{messageId,jdbcType=VARCHAR},
+      receiver_id = #{receiverId,jdbcType=INTEGER},
+      topic = #{topic,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--查询该用户是否有发送失败的对应系统的消息-->
+  <select id="getSendFailureMessageByUserIdAndTopic" resultType="com.banma.hermes.consumer.domain.MessageSend">
+    SELECT
+    a.message_id AS id,
+    b.context AS content
+    FROM
+    (
+    SELECT
+    *
+    FROM
+    `hermes_message_web`
+    WHERE
+    `status` = 0
+    AND receiver_id = #{userId}
+    AND topic = #{topic}
+    ) a
+    JOIN hermes_message b ON b.message_id = a.message_id
+  </select>
+
+  <!--批量更新发送成功的消息状态，消息到来时-->
+  <update id="updateMessageStatusSuccessByMessageId">
+    UPDATE hermes_message_web
+    SET `status` = 1
+    WHERE
+    message_id = #{messageId}
+    AND receiver_id IN
+    <foreach collection="sendSuccessIdList" open="(" close=")" separator="," index="index" item="item">
+      #{item}
+    </foreach>
+  </update>
+
+
+  <!--批量更新发送成功的消息状态，客户端连接时-->
+  <update id="updateMessageStatusSuccessByUserIdAndTopic">
+	UPDATE hermes_message_web
+    SET `status` = 1
+    WHERE
+    	`status` = 0
+    AND receiver_id = #{userId}
+    AND topic = #{topic}
+  </update>
+</mapper>

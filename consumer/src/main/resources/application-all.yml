@@ -1,0 +1,66 @@
+server:
+  port: 9003
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  datasource:
+      url: jdbc:mysql://172.16.1.18:3306/banma_all?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&zeroDateTimeBehavior=convertToNull&useSSL=true&allowMultiQueries=true
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+  application:
+    name: hermes
+  mail:
+    host: smtp.exmail.qq.com
+    username: order_notice@banmatrip.com
+    password: banma2015BM
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+              enable: true
+          stattls:
+              required: true
+
+  #redis配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      min-idle: 0
+    timeout: 0
+    database: 1
+
+
+#mybatis配置
+mybatis:
+  typeAliasesPackage: com.banma.domainn
+  mapperLocations: classpath*:mapper/*.xml
+  configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration.call-setters-on-nulls: true
+
+
+
+#常量配置
+consumer:
+   orderId: 1
+   nameSrvAddress: 127.0.0.1:9876
+   webTopic: webTopic
+   emailTopic: emailTopic
+   dingdingTopic: dingdingTopic
+   SMSTopic: SMSTopic
+   webCode: 1
+   emailCode: 2
+   dingdingCode: 3
+   SMSCode: 4
+   tag: banma
+   webGroup: webConsumer
+   emailGroup: emailConsumer
+   dingdingGroup: dingdingConsumer
+   SMSGroup: SMSConsumer
+   WebsocketUrl: http://localhost:8080/send

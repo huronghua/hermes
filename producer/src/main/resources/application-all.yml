@@ -1,0 +1,63 @@
+server:
+  port: 9002
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  datasource:
+      url: jdbc:mysql://172.16.1.18:3306/banma_all?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&zeroDateTimeBehavior=convertToNull&useSSL=true&allowMultiQueries=true
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+  application:
+    name: hermes
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+  #redis配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      min-idle: 0
+    timeout: 0
+    database: 0
+
+
+#mybatis配置
+mybatis:
+  typeAliasesPackage: com.banmatrip.hermes.com.banma.domainn
+  mapperLocations: classpath*:mapper/*.xml
+  configuration.log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration.call-setters-on-nulls: true
+
+
+
+#常量配置
+producer:
+   orderId: 1
+   nameSrvAddress: localhost:9876
+   webTopic: webTopic
+   emailTopic: emailTopic
+   dingdingTopic: dingdingTopic
+   SMSTopic: SMSTopic
+   webCode: 1
+   emailCode: 2
+   dingdingCode: 3
+   SMSCode: 4
+   tag: banma
+   group: banmaTrip
+   InstanceName: producer
+   bucketName: banmatriphermes-email
+
+aliyunoss:
+   accesskeyid: LTAIXKx43b1RgpgU
+   accesskeysecret: 0XFeyzyZjYjeHIPvHvdvsz2mf9wz2E
+   endpoint: https://oss-cn-shanghai.aliyuncs.com
+
+
